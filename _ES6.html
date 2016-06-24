@@ -10,7 +10,7 @@
     <!--<meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">-->
     <meta name="viewport" content="user-scalable=no">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> -->
+
     <title></title>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <style type="text/css" media="screen">
@@ -34,7 +34,7 @@
         color: #fff;
       }
       /* --------------------------- sw Carousel */
-      div#thumbs1 {
+      div.thumbs {
         position: relative;
         z-index: 191;
         margin: 0px auto;
@@ -64,19 +64,13 @@
         cursor: pointer;
         /*float: left;*/
       }
-      ul#cycleList2.cycleList li {
-        width: 160px;
-        height: 98px;
-      }
-      ul#cycleList0.cycleList li,
-      ul#cycleList1.cycleList li,
-      ul#cycleList2.cycleList li {
+      ul.cycleList li {
         float: left;
       }
-      ul#cycleList2 li {
-        float: left;
-        list-style: none;
+      ul.cycleList li {
+        font-size: 20px;
       }
+
       .overFlo {
         overflow: hidden;
       }
@@ -95,15 +89,14 @@
       .hovtest {
         background-color: #ad9f7d;
       }
-      #h_rotate-left {
+      .h_rotate-left {
         float: left;
       }
-      #h_rotate-right {
+      .h_rotate-right {
         float: right;
       }
       /* sw Carousel UI setting */
-      #CarouselArea,
-      #fCarousel {
+      .CarouselArea {
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -113,7 +106,7 @@
       .SMPutility {
         -webkit-touch-callout: none;
       }
-      #CarouselArea {
+      .CarouselArea {
         position: relative;
         z-index: 111;
         width: 320px;
@@ -122,7 +115,7 @@
         background-size: 100%;
         -webkit-background-size: 320px 240px;
       }
-      #CarouselArea #h_rotate-left {
+      .h_rotate-left {
         position: absolute;
         z-index: 333;
         left: 23px;
@@ -133,7 +126,7 @@
         background-size: 100%;
         -webkit-background-size: 60px 35px;
       }
-      #CarouselArea #h_rotate-right {
+      .h_rotate-right {
         position: absolute;
         z-index: 333;
         right: 23px;
@@ -144,29 +137,90 @@
         background-size: 100%;
         -webkit-background-size: 60px 35px;
       }
-
-
+      div#h_resume a {
+        display: none;
+      }
+      .sliderThumbs {
+        float: left;
+        margin: 35px 10px 10px 21px;
+        cursor: pointer;
+      }
+      .sliderThumbs.active {
+        background-color: #C00000;
+      }
+      #pause {
+        float: left;
+      }
     </style>
 </head>
 <body class="">
-<a href="/_jsFiddle_/swES6/weight/">/_jsFiddle_/swES6/weight/</a>
-<div id="CarouselArea">
-  <div id='thumbs1' class="thumbs overFlo">
-    <ul id='cycleList1' class="cycleList">
-      <li class='cyan'>
-      <li class='magenta'>
-      <li class='yellow'>
-      <li class='cyan'>
-      <li class='magenta'>
-      <li class='yellow'>
+<span><a href="/_jsFiddle_/swES6/weight/">/_jsFiddle_/swES6/weight/</a>｜
+<a href="/_jsFiddle_/swES6/_react.html">/_jsFiddle_/swES6/_react.html</a>｜
+<a href="/_demos/_swES6(skelton)/">/_demos/_swES6(skelton)/｜</a>
+  <a href="/_jsFiddle_/swOreJqAjaxSlider/index.html">OreList</a>
+</span>
+<!--D_E_B_U_G-->
+<hr>
+<div id='D_E_B_U_G'>
+  <!--<div id="init" class='rotate-button'><a href="#">TOGGLE overFlo</a></div>-->
+  <div id='pause' class='rotate-button'><a href="#"> ul.stop(true, true) </a></div>
+  <div id='h_resume' class='rotate-button'><a href="#"> resume(All)/startTimeout()</a></div>
+</div>
+<!--D_E_B_U_G-->
+
+<div id="CarouselArea0" class="CarouselArea">
+  <div id='thumbs0' class="thumbs overFlo">
+    <ul id='cycleList0' class="cycleList">
+      <li class='cyan'>05:Coffee</li>
+      <li class='magenta'>06:Coffee</li>
+      <li class='yellow'>01:Coffee</li>
+      <li class='cyan'>02:Coffee</li>
+      <li class='magenta'>03:Coffee</li>
+      <li class='yellow'>04:Coffee</li>
     </ul>
   </div>
-  <div class="pagerMaker"></div>
-  <div id='h_rotate-left' class=''><span class="">←Left</span></div>
-  <div id='h_rotate-right' class=''><span class="">→Right</span></div>
+  <div>
+    <div id='h_rotate-left0' class='h_rotate-left'><span class="">←Left</span></div>
+    <div id='h_rotate-right0' class='h_rotate-right'><span class="">→Right</span></div>
+  </div>
+  <div class="pagerMaker0 clear">
+    <div class="sliderThumbs hNavi"><span>01</span><a href="#"></a></div>
+    <div class="sliderThumbs hNavi"><span>02</span><a href="#"></a></div>
+    <div class="sliderThumbs hNavi"><span>03</span><a href="#"></a></div>
+    <div class="sliderThumbs hNavi"><span>04</span><a href="#"></a></div>
+    <div class="sliderThumbs hNavi"><span>05</span><a href="#"></a></div>
+    <div class="sliderThumbs hNavi"><span>06</span><a href="#"></a></div>
+  </div>
 </div>
+
+<div id="CarouselArea1" class="CarouselArea">
+  <div id='thumbs1' class="thumbs overFlo">
+    <ul id='cycleList1' class="cycleList">
+      <li class='cyan'>05:ES2015</li>
+      <li class='magenta'>06:ES2015</li>
+      <li class='yellow'>01:ES2015</li>
+      <li class='cyan'>02:ES2015</li>
+      <li class='magenta'>03:ES2015</li>
+      <li class='yellow'>04:ES2015</li>
+    </ul>
+  </div>
+  <div>
+    <div id='h_rotate-left1' class='h_rotate-left'><span class="">←Left</span></div>
+    <div id='h_rotate-right1' class='h_rotate-right'><span class="">→Right</span></div>
+  </div>
+  <div class="pagerMaker1 clear">
+    <div class="sliderThumbs hNavi"><span>01</span><a href="#"></a></div>
+    <div class="sliderThumbs hNavi"><span>02</span><a href="#"></a></div>
+    <div class="sliderThumbs hNavi"><span>03</span><a href="#"></a></div>
+    <div class="sliderThumbs hNavi"><span>04</span><a href="#"></a></div>
+    <div class="sliderThumbs hNavi"><span>05</span><a href="#"></a></div>
+    <div class="sliderThumbs hNavi"><span>06</span><a href="#"></a></div>
+  </div>
+</div>
+
+
+
 <canvas id="field" width="200" height="150"></canvas>
-<div id="svg1"></div>
 
 
 
@@ -177,9 +231,10 @@
 <script src="lib/jqui1.10.3.cust.min.js"></script>
 
 <!--babel-->
-<script src="lib/browser-polyfill.min.js"></script>
-<script src="_ES6-compiled.js"></script>
-<script src="_ES6.oreSilder-compiled.js"></script>
+<!--<script src="lib/browser-polyfill.min.js"></script>-->
+<script src="_ES6.oreSilder.es6"></script>
+<script src="_coffee.oreSilder.js"></script>
+<script src="_ES6.es6"></script>
 
 <!-- / SW CSS js -->
 </body>

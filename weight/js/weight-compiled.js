@@ -1,4 +1,4 @@
-/* sw ES6 151203 */
+/* sw ES6 160408 */
 "use strict";
 (function () {
 
@@ -53,7 +53,6 @@
     var bisectDate = undefined,
         formatCurrency = undefined,
         formatValue = undefined,
-        mousemove = undefined,
         tip = undefined;
 
     data.forEach(function (d) {
@@ -89,7 +88,8 @@
     //formatValue = d3.format(",.2f");
     //formatCurrency = (d) =>{ return "cal." + formatValue(d); };
 
-    mousemove = function () {
+    var mousemoved = function mousemoved() {
+      // bind under this
       var d, d0, d1, i, x0;
       x0 = x.invert(d3.mouse(this)[0]);
       i = bisectDate(data, x0, 1);
@@ -104,12 +104,13 @@
       tip.style("display", null);
     }).on("mouseout", function () {
       tip.style("display", "none");
-    }).on("mousemove", mousemove);
+    }).on("mousemove", mousemoved);
 
     context.append("path").datum(data).attr("d", area2);
     context.append("g").attr("class", "x axis").attr("transform", "translate(0," + height2 + ")").call(xAxis2);
     context.append("g").attr("class", "x brush").call(brush).selectAll("rect").attr("y", -6).attr("height", height2 + 7);
   });
 })();
+// EOF
 
 //# sourceMappingURL=weight-compiled.js.map

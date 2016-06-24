@@ -11,7 +11,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       swns = {};
 
   var FRAME_RATE = 567,
-      STOP_RATE = 8765,
+      STOP_RATE = 5678,
+      COUNT_CNAME = "count",
       EASING = 'easeOutExpo';
 
   var CarouselAssyL = (function () {
@@ -32,6 +33,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         left: this.left_value
       });
       this.count = 0;
+      this.speed = speed;
       this._initialPager();
     }
 
@@ -39,72 +41,111 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     _createClass(CarouselAssyL, [{
       key: "rotateLeft",
-      value: function rotateLeft(_flag) {
-        var self = this;
-        var sabun = Math.abs(self.item_width + parseInt($(self.thumbsWrapL).css("left")));
-        var speed = !_flag ? self.speed : sabun * (FRAME_RATE / 100);
-        return $(self.thumbsWrapL).animate({
-          left: self.item_width * -1
+      value: function rotateLeft(_speed) {
+        var _this = this;
+
+        var sabun = Math.abs(this.item_width + parseInt($(this.thumbsWrapL).css("left")));
+        //let speed = !_flag ? this.speed : sabun * (FRAME_RATE / 100);
+        // speed 飛ばす場合
+        var speed = _speed ? _speed : this.speed;
+        // カウントしてから版
+        var ref = undefined;
+        if (Math.abs(this.count) === 0) {
+          this.count = this.thumbs.length - 1;
+        } else if (0 < (ref = Math.abs(this.count)) && ref <= this.thumbs.length - 1) {
+          this.count -= 1;
+        }
+        this._pagerAssy();
+        return $(this.thumbsWrapL).animate({
+          left: this.item_width * -1
         }, speed, EASING, function () {
-          var ref = undefined;
-          $(self.thumbsWrapL).find(self.first_thumb).before($(self.thumbsWrapL).find(self.last_thumb));
-          $(self.thumbsWrapL).css({
-            left: self.item_width * -2
+          $(_this.thumbsWrapL).find(_this.first_thumb).before($(_this.thumbsWrapL).find(_this.last_thumb));
+          $(_this.thumbsWrapL).css({
+            left: _this.item_width * -2
           });
-          if (Math.abs(self.count) === 0) {
-            self.count = self.thumbs.length - 1;
-          } else if (0 < (ref = Math.abs(self.count)) && ref <= self.thumbs.length - 1) {
-            self.count -= 1;
-          }
-          return self._pagerAssy();
         });
       }
     }, {
       key: "rotateRight",
-      value: function rotateRight(_flag) {
-        var self = this;
-        var sabun = Math.abs(self.item_width * 3 + parseInt($(self.thumbsWrapL).css("left")));
-        var speed = !_flag ? self.speed : sabun * (FRAME_RATE / 100);
-        return $(self.thumbsWrapL).animate({
-          left: self.item_width * -3
+      value: function rotateRight(_speed) {
+        var _this2 = this;
+
+        var sabun = Math.abs(this.item_width * 3 + parseInt($(this.thumbsWrapL).css("left")));
+        //let speed = !_flag ? this.speed : sabun * (FRAME_RATE / 100);
+        // speed 飛ばす場合
+        var speed = _speed ? _speed : this.speed;
+        // カウントしてから版
+        if (Math.abs(this.count) === this.thumbs.length - 1) {
+          this.count = 0;
+        } else {
+          this.count += 1;
+        }
+        this._pagerAssy();
+        return $(this.thumbsWrapL).animate({
+          left: this.item_width * -3
         }, speed, EASING, function () {
-          $(self.thumbsWrapL).find(self.last_thumb).after($(self.thumbsWrapL).find(self.first_thumb));
-          $(self.thumbsWrapL).css({
-            left: self.item_width * -2
+          $(_this2.thumbsWrapL).find(_this2.last_thumb).after($(_this2.thumbsWrapL).find(_this2.first_thumb));
+          $(_this2.thumbsWrapL).css({
+            left: _this2.item_width * -2
           });
-          if (Math.abs(self.count) === self.thumbs.length - 1) {
-            self.count = 0;
+        });
+      }
+
+      // notice スマホを考慮しない 1+左右+1 版
+    }, {
+      key: "_rotateRight",
+      value: function _rotateRight(_speed) {
+        var _this3 = this;
+
+        var sabun = Math.abs(this.item_width * 3 + parseInt($(this.thumbsWrapL).css("left")));
+        //let speed = !_flag ? this.speed : sabun * (FRAME_RATE / 100);
+        var speed = _speed ? _speed : this.speed;
+        // 右発火したときに、先に置く
+        $(this.thumbsWrapL).find(this.last_thumb).after($(this.thumbsWrapL).find(this.first_thumb));
+        // CSSすりかえる
+        $(this.thumbsWrapL).css({ left: this.item_width * -1 });
+        return $(this.thumbsWrapL).animate({
+          left: this.item_width * -2
+        }, speed, EASING, function () {
+          // SSすりかえしたあと、左同様のanimate
+          $(_this3.thumbsWrapL).css({ left: _this3.item_width * -2 });
+          // カウントあとの版
+          if (Math.abs(_this3.count) === _this3.thumbs.length - 1) {
+            _this3.count = 0;
           } else {
-            self.count += 1;
+            _this3.count += 1;
           }
-          return self._pagerAssy();
+          _this3._pagerAssy();
         });
       }
     }, {
       key: "_initialPager",
       value: function _initialPager() {
-        var self = this;
-        self.pager = $("#CarouselArea").find(".pagerMaker");
-        self.pagerList = $(self.pager).find(".sliderThumbs");
-        return $(self.pagerList).eq(0).addClass("active");
+        this.pager = $("#CarouselArea1").find(".pagerMaker1");
+        this.pagerList = $(this.pager).find(".sliderThumbs");
+        return $(this.pagerList).eq(0).addClass("active");
       }
     }, {
       key: "_pagerAssy",
       value: function _pagerAssy() {
-        var self = this;
-        return $(self.pagerList).each(function (i, val) {
-          var j = self.count - 1;
-          $(self.pagerList).eq(j).addClass("active");
-          $(self.pagerList).eq(j).siblings().removeClass("active");
+        var _this4 = this;
+
+        // add active class
+        var j = null;
+        $(this.pagerList).each(function (i, val) {
+          j = _this4.count - 1;
+          $(val).addClass("" + COUNT_CNAME + (i + 1));
+          $(_this4.pagerList).eq(j).addClass("active");
+          $(_this4.pagerList).eq(j).siblings().removeClass("active");
         });
       }
     }, {
       key: "clickSnippet",
       value: function clickSnippet() {
-        var self = this;
-        var j = self.count;
-        var href = $(self.thumbs).eq(j).find("a").attr("href");
-        var target = $(self.thumbs).eq(j).find("a").attr("target");
+        // not use this
+        var j = this.count;
+        var href = $(this.thumbs).eq(j).find("a").attr("href");
+        var target = $(this.thumbs).eq(j).find("a").attr("target");
       }
     }]);
 
@@ -118,63 +159,74 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var carousel1 = new CarouselAssyL("ul#cycleList1", FRAME_RATE);
     var $sliderUL = $("ul#cycleList1");
 
-    var initLoopFunc = function initLoopFunc(flag) {
-      carousel1.rotateRight(flag);
+    var initLoopFunc = function initLoopFunc() {
+      carousel1.rotateRight();
     };
     var startTimeout = function startTimeout() {
-      initLoopFunc(false);
+      initLoopFunc();
       return timerID = setTimeout(startTimeout, STOP_RATE);
     };
     var stopTimeout = function stopTimeout() {
       return clearTimeout(timerID);
     };
+    var resetTimeout = function resetTimeout() {
+      if (!swns.isToggleStop) {
+        stopTimeout();
+        _.delay(startTimeout, STOP_RATE);
+      }
+    };
     var initial = function initial() {
-      $("div#h_resume a").hide();
+      //$("div#h_resume a").hide();
       return $sliderUL.animate({
         opacity: 1
       }, FRAME_RATE, EASING);
     };
-    var fncFireTouchMove = function fncFireTouchMove(e, bool) {
-      e.preventDefault();
-      if (!bool) {
-        if (!$sliderUL.is(":animated")) {
-          return $sliderUL.css("left", function (i, val) {
-            val = swns.diffX - swns.item_width * 2;
-          });
-        }
+    var fncFireTouchMove = function fncFireTouchMove(e) {
+      if (e) {
+        e.preventDefault();
+      }
+      if (!$sliderUL.is(":animated")) {
+        $sliderUL.css("left", function (i, val) {
+          val = swns.diffX - swns.item_width * 2;
+          return val;
+        });
       }
     };
-    var fncFireNext = function fncFireNext(e, bool) {
-      e.preventDefault();
-      if (!bool) {
-        if (!$sliderUL.is(":animated")) {
-          carousel1.rotateLeft();
-          return false;
-        }
+    var fncFireNext = function fncFireNext(e) {
+      if (e) {
+        e.preventDefault();
       }
-    };
-    var fncFirePrev = function fncFirePrev(e, bool) {
-      e.preventDefault();
-      if (!bool) {
-        if (!$sliderUL.is(":animated")) {
-          carousel1.rotateRight();
-          return false;
-        }
+      if (!$sliderUL.is(":animated")) {
+        carousel1.rotateLeft();
+        return false;
       }
+      resetTimeout();
     };
-    $("div#h_rotate-left").on("click", function (e) {
+    var fncFirePrev = function fncFirePrev(e) {
+      if (e) {
+        e.preventDefault();
+      }
+      if (!$sliderUL.is(":animated")) {
+        carousel1.rotateRight();
+        return false;
+      }
+      resetTimeout();
+    };
+    $("div#h_rotate-left1").on("click", function (e) {
       fncFireNext(e);
       return false;
     });
-    $("div#h_rotate-right").on("click", function (e) {
+    $("div#h_rotate-right1").on("click", function (e) {
       fncFirePrev(e);
       return false;
     });
     var toggleStopFunc = function toggleStopFunc(_flag) {
       if (_flag) {
         $("div#h_resume a").show();
+        swns.isToggleStop = true;
       } else {
         $("div#h_resume a").hide();
+        swns.isToggleStop = false;
       }
     };
     $("div#pause a").on("click", function (e) {
@@ -184,18 +236,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return false;
     });
     $("div#h_resume a").on("click", function (e) {
-      $("#ovLay").children("li").remove();
-      initLoopFunc(true);
       startTimeout();
       toggleStopFunc(false);
       return false;
     });
+    // ------ Clone my DOM
     var thumbsClickFuncTest = function thumbsClickFuncTest(_elem) {
       var myClone = undefined;
       myClone = $(_elem).clone();
       $("#ovLay").append(myClone);
     };
-    var getTouchHandler = function getTouchHandler(bool) {
+    var getTouchHandler = function getTouchHandler() {
       var clkDefs = undefined,
           diffX = undefined,
           sTime = undefined,
@@ -214,21 +265,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         touch = e.originalEvent.touches[0];
         if (e.type === "touchstart") {
           startX = touch.pageX;
-          sTime = new Date().getTime();
+          return sTime = new Date().getTime();
         } else if (e.type === "touchmove") {
           e.preventDefault();
           diffX = touch.pageX - startX;
           swns.diffX = diffX;
-          fncFireTouchMove(e, bool);
+          return fncFireTouchMove(e);
         } else if (e.type === "touchend") {
           t = new Date().getTime() - sTime;
           if (0 <= diffX && diffX < touchDefs || t < timeBrank) {} else if (diffX > touchDefs || t < timeBrank && diffX > clkDefs) {
-            fncFireNext(e, bool);
+            return fncFireNext(e);
           } else if (diffX < -touchDefs || t < timeBrank && diffX < -clkDefs) {
-            fncFirePrev(e, bool);
-          } else {
-            return null;
-          }
+            return fncFirePrev(e);
+          } else {}
         }
       };
     };
@@ -236,12 +285,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       var touchHandler1 = getTouchHandler();
       $sliderUL.on("touchstart.box touchmove.box touchend.box", touchHandler1);
     };
-    var PCevt = function PCevt() {
-      /*
-      arrow function内のthisは、関数が定義されたコンテキストのthisにバインドされるようです。
+    var initialEvt = function initialEvt() {
+      /* arrow function内のthisは、関数が定義されたコンテキストのthisにバインドされるようです。
       これは var self = this; みたいなことをやっていたベストプラクティスが不要になるので
-      基本的には歓迎なのですが、今回のようなケースでは困ることになります。
-      てっとり早いのはarrow functionをやめることです。
+      基本的には歓迎なのですが、今回のようなケースでは困ることになります。 てっとり早いのはarrow functionをやめることです。
       */
       var $thumbsList = $sliderUL.find("li"); //$("ul#cycleList1 li");
       /*$thumbsList.each((i, ele)=> {
@@ -254,37 +301,70 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         })
       });*/
       // todo for
-
-      var _loop = function (i, l) {
+      /*for (let i = 0, l = $thumbsList.length; i < l; i++) {
         //console.info($($thumbsList[i]));
-        var getAttr = $($thumbsList[i]).attr("class");
-        getAttr = getAttr + (" index:" + i);
-        $($thumbsList[i]).hover(function () {
-          console.info("for:mouseenter " + getAttr);
-        }, function () {
-          console.info("for:mouseleave " + getAttr);
-        });
-      };
-
-      for (var i = 0, l = $thumbsList.length; i < l; i++) {
-        _loop(i, l);
-      }
-      console.info($thumbsList);
-
-      /*for (let ele of $thumbsList) {
-        console.info(ele);
+        let getAttr = $($thumbsList[i]).attr("class");
+        getAttr = getAttr + ` index:${i}`;
+        $($thumbsList[i]).hover(()=>{
+          console.info(`for:mouseenter ${getAttr}`);
+        }, ()=>{
+          console.info(`for:mouseleave ${getAttr}`);
+        })
       }*/
-    }; // PCevt }
+
+      // do it pager click event
+      var $pager = $(".pagerMaker1 .sliderThumbs");
+      /**
+       *
+       * @param {int} a
+       * @param {int} b
+       * @returns {string}
+       */
+      var count = function count(a, b) {
+        if (a > b) {
+          var num = a - b;
+          _(num).times(function () {
+            carousel1.rotateLeft(321);
+          });
+          resetTimeout();
+          return "<-" + num;
+        } else if (a < b) {
+          var num = Math.abs(a - b);
+          _(num).times(function () {
+            carousel1.rotateRight(321);
+          });
+          resetTimeout();
+          return num + "->";
+        } else {
+          return "<-->";
+        }
+      };
+      $pager.on("click", function (e) {
+        var nowCount = $pager.filter(".active").attr("class");
+        var regexp = new RegExp(COUNT_CNAME + '(\\d+)', ''); // g
+        var activeNum = nowCount.match(regexp);
+        var thisCount = $(this).attr("class");
+        thisCount = thisCount.match(regexp);
+        if (activeNum !== void 0) {
+          console.info("reg", regexp, "active", activeNum, "click", thisCount[1], count(activeNum[1] | 0, thisCount[1] | 0));
+        }
+        return false;
+      });
+    }; // initialEvt }
 
     if (doc.ontouchstart !== void 0 || doc.createTouch !== void 0) {
       SMPevt();
-    } else {
-      PCevt();
-    }
-
-    return initial();
+    } else {}
+    initial();
+    initialEvt();
+    startTimeout();
   }); // DRF }
+
+  win.__SWNS = {};
+  win.__SWNS = swns;
+  //export { exportObj };
 })(jQuery, window, document);
+
 // EOF
 
 //# sourceMappingURL=_ES6.oreSilder-compiled.js.map
