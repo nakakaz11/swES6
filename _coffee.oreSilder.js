@@ -251,8 +251,6 @@
             return fncFireNext(e, bool);
           } else if ((diffX < -touchDefs) || (t < timeBrank && diffX < -clkDefs)) {
             return fncFirePrev(e, bool);
-          } else {
-
           }
         }
       };

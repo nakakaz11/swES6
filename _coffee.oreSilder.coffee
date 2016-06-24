@@ -221,26 +221,23 @@ do ($ = jQuery, win = window, doc = document) ->
         touch = e.originalEvent.touches[0]
         if (e.type is "touchstart")
           startX = touch.pageX
-          sTime = (new Date()).getTime()         #開始時間
+          return sTime = (new Date()).getTime()         #開始時間
         else if (e.type is "touchmove")
           e.preventDefault()
           diffX = touch.pageX - startX
           swns.diffX = diffX
-          fncFireTouchMove(e, bool)
+          return fncFireTouchMove(e, bool)
         else if (e.type is "touchend")
           t = (new Date()).getTime() - sTime      #時間差分
           # touchDefs未満移動したか、timeBrank ミリ秒以内ならばスルー
-          return  if 0 <= diffX < touchDefs or t < timeBrank
+          if 0 <= diffX < touchDefs or t < timeBrank
           # touchDefs以上移動したか、timeBrank ミリ秒以内にclkDefs以上移動したらフリックと判定
           else if (diffX > touchDefs) or (t < timeBrank and diffX > clkDefs)
-            fncFireNext(e, bool)
+            return fncFireNext(e, bool)
           else if (diffX < - touchDefs) or (t < timeBrank and diffX < - clkDefs)
-            fncFirePrev(e, bool)
+            return fncFirePrev(e, bool)
           # それ以外もスルー
-          else return
 
-        #SMPDebugEventTest(e)  # fixme（ D_E_B_U_G ）
-        #return  if (e.type is "click")
         #e.stopPropagation()
 
     SMPevt = ->
