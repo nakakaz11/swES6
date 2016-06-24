@@ -1,4 +1,5 @@
 /* ES6
+git http://koni.hateblo.jp/entry/2016/01/12/090000
 
 let exportObj = swns;
 export { exportObj };
