@@ -10,9 +10,9 @@
   $doc = $(doc);
   swns = {};
   FRAME_RATE = 567;
-  STOP_RATE = 5678;
+  STOP_RATE = 6789;
   COUNT_CNAME = "count";
-  EASING = 'easeInOutExpo';
+  EASING = 'easeInCubic';
   CarouselAssyL = (function() {
     function CarouselAssyL(list, speed, _flag) {
       this.thumbsWrapL = $(list);
@@ -132,6 +132,7 @@
 
   })();
   timerID = void 0;
+  swns.isToggleStop = false;
   return $(function() {
     var $sliderUL, SMPevt, carousel1, fncFireNext, fncFirePrev, fncFireTouchMove, getTouchHandler, initLoopFunc, initial, initialEvt, resetTimeout, startTimeout, stopTimeout, thumbsClickFuncTest, toggleStopFunc;
     carousel1 = new CarouselAssyL("ul#cycleList0", FRAME_RATE);
@@ -147,10 +148,8 @@
       return clearTimeout(timerID);
     };
     resetTimeout = function() {
-      if (!swns.isToggleStop) {
-        stopTimeout();
-        return _.delay(startTimeout, STOP_RATE);
-      }
+      stopTimeout();
+      return _.delay(startTimeout, STOP_RATE);
     };
     initial = function() {
       return $sliderUL.animate({
@@ -174,9 +173,9 @@
       }
       if (!$sliderUL.is(":animated")) {
         carousel1.rotateLeft();
-        return false;
       }
-      return resetTimeout();
+      resetTimeout();
+      return false;
     };
     fncFirePrev = function(e) {
       if (e) {
@@ -184,9 +183,9 @@
       }
       if (!$sliderUL.is(":animated")) {
         carousel1.rotateRight();
-        return false;
       }
-      return resetTimeout();
+      resetTimeout();
+      return false;
     };
     $("div#h_rotate-left0").on("click", function(e) {
       fncFireNext(e);
@@ -199,11 +198,12 @@
     toggleStopFunc = function(_flag) {
       if (_flag) {
         $("div#h_resume a").show();
-        return swns.isToggleStop = true;
+        swns.isToggleStop = true;
       } else {
         $("div#h_resume a").hide();
-        return swns.isToggleStop = false;
+        swns.isToggleStop = false;
       }
+      return typeof console !== "undefined" && console !== null ? console.info("swns.isToggleStop(coffee):", swns.isToggleStop) : void 0;
     };
     $("div#pause a").on("click", function(e) {
       toggleStopFunc(true);

@@ -11,7 +11,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       swns = {};
 
   var FRAME_RATE = 567,
-      STOP_RATE = 5678,
+      STOP_RATE = 6789,
       COUNT_CNAME = "count",
       EASING = 'easeOutExpo';
 
@@ -153,6 +153,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   })();
 
   var timerID = void 0;
+  swns.isToggleStop = false;
 
   // do it DRF
   $(function () {
@@ -170,10 +171,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return clearTimeout(timerID);
     };
     var resetTimeout = function resetTimeout() {
-      if (!swns.isToggleStop) {
-        stopTimeout();
-        _.delay(startTimeout, STOP_RATE);
-      }
+      if (!swns.isToggleStop) {}
+      stopTimeout();
+      _.delay(startTimeout, STOP_RATE);
     };
     var initial = function initial() {
       //$("div#h_resume a").hide();
@@ -198,9 +198,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
       if (!$sliderUL.is(":animated")) {
         carousel1.rotateLeft();
-        return false;
       }
       resetTimeout();
+      return false;
     };
     var fncFirePrev = function fncFirePrev(e) {
       if (e) {
@@ -208,9 +208,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
       if (!$sliderUL.is(":animated")) {
         carousel1.rotateRight();
-        return false;
       }
       resetTimeout();
+      return false;
     };
     $("div#h_rotate-left1").on("click", function (e) {
       fncFireNext(e);

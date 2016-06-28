@@ -6,7 +6,7 @@
       swns = {};
 
   const FRAME_RATE = 567,
-        STOP_RATE  = 5678,
+        STOP_RATE  = 6789,
         COUNT_CNAME  = "count",
         EASING     = 'easeOutExpo';
 
@@ -72,7 +72,7 @@
         });
       });
     }
-    // notice スマホを考慮しない 1+左右+1 版 
+    // notice スマホを考慮しない 1+左右+1 版
     _rotateRight(_speed) {
       let sabun = Math.abs((this.item_width * 3) + parseInt($(this.thumbsWrapL).css("left")));
       //let speed = !_flag ? this.speed : sabun * (FRAME_RATE / 100);
@@ -118,6 +118,7 @@
   } // CarouselAssyL }
 
   let timerID = void 0;
+  swns.isToggleStop = false;
 
   // do it DRF
   $(()=> {
@@ -136,9 +137,9 @@
     };
     let resetTimeout = ()=> {
       if (!swns.isToggleStop) {
-        stopTimeout();
-        _.delay(startTimeout, STOP_RATE);
       }
+      stopTimeout();
+      _.delay(startTimeout, STOP_RATE);
     };
     let initial = ()=> {
       //$("div#h_resume a").hide();
@@ -159,17 +160,17 @@
       if (e) { e.preventDefault(); }
       if (!$sliderUL.is(":animated")) {
         carousel1.rotateLeft();
-        return false;
       }
       resetTimeout();
+      return false;
     };
     let fncFirePrev = (e)=> {
       if (e) { e.preventDefault(); }
       if (!$sliderUL.is(":animated")) {
         carousel1.rotateRight();
-        return false;
       }
       resetTimeout();
+      return false;
     };
     $("div#h_rotate-left1").on("click", (e)=> {
       fncFireNext(e);

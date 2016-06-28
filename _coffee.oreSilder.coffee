@@ -10,10 +10,10 @@ do ($ = jQuery, win = window, doc = document) ->
   #win.__SWNS = swns
 
   FRAME_RATE = 567
-  STOP_RATE  = 5678         # 9110 だいたい4秒？
+  STOP_RATE  = 6789         # 9110 だいたい4秒？
   COUNT_CNAME  = "count"
-  EASING     = 'easeInOutExpo'
-  #EASING     = 'easeOutExpo'
+  #EASING     = 'easeInOutExpo'
+  EASING     = 'easeInCubic'
   #EASING     = 'easeInOutBack'
 
   class CarouselAssyL
@@ -126,6 +126,8 @@ do ($ = jQuery, win = window, doc = document) ->
 
 
   timerID    = undefined
+  swns.isToggleStop = false
+
   # Do it DRF
   #jQuery ($) ->
   $ ->
@@ -144,9 +146,9 @@ do ($ = jQuery, win = window, doc = document) ->
       return clearTimeout(timerID);
       
     resetTimeout = ()->
-      if (!swns.isToggleStop)
-        stopTimeout();
-        _.delay(startTimeout, STOP_RATE);
+      #if (!swns.isToggleStop)
+      stopTimeout();
+      _.delay(startTimeout, STOP_RATE);
 
     initial = ()->
       #$("div#h_resume a").hide();
@@ -165,15 +167,15 @@ do ($ = jQuery, win = window, doc = document) ->
       if (e) then  e.preventDefault()
       if (!$sliderUL.is(":animated"))
         carousel1.rotateLeft();
-        return false;
       resetTimeout();
+      return false;
 
     fncFirePrev = (e)->
       if (e) then  e.preventDefault()
       if (!$sliderUL.is(":animated"))
         carousel1.rotateRight();
-        return false;
       resetTimeout();
+      return false;
 
     $("div#h_rotate-left0").on("click", (e)->
       fncFireNext(e);
@@ -190,6 +192,7 @@ do ($ = jQuery, win = window, doc = document) ->
       else
         $("div#h_resume a").hide();
         swns.isToggleStop = false;
+      console?.info "swns.isToggleStop(coffee):", swns.isToggleStop       #------- sw Log --(´･_･`)
 
     $("div#pause a").on("click", (e)->
       toggleStopFunc(true);
@@ -282,9 +285,9 @@ do ($ = jQuery, win = window, doc = document) ->
     # タッチデバイスからのアクセス
     if (doc.ontouchstart isnt undefined) or (doc.createTouch isnt undefined) then SMPevt()
 
-    initial()
-    initialEvt()
-    startTimeout()
+    initial();
+    initialEvt();
+    startTimeout();
 
 
 ###]]>###
